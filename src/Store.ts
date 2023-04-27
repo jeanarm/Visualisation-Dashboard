@@ -87,6 +87,8 @@ import {
     setVisualizations,
     setDataElementGroups,
     setDataElementGroupSets,
+    changeVisualizationOrder,
+    changeVisualizationShow,
 } from "./Events";
 import {
     ICategory,
@@ -515,6 +517,7 @@ export const $dashboard = domain
     .on(setTargetCategoryOptionCombos, (state, targetCategoryOptionCombos) => {
         return { ...state, targetCategoryOptionCombos };
     })
+    
     .on(setHasChildren, (state, hasChildren) => {
         return { ...state, hasChildren };
     })
@@ -524,7 +527,31 @@ export const $dashboard = domain
     })
     .on(setSections, (state, sections) => {
         return { ...state, sections };
-    });
+    })
+    .on(changeVisualizationOrder,(state,{order,section})=>{
+        const sections = state.sections.map((s) => {
+          if (s.id === section.id) {
+            const visualizations = section.visualizations.map((viz) => {
+              return { ...viz, order };
+            });
+            return { ...section, visualizations };
+          }
+          return s;
+        });
+        return { ...state, sections }; 
+      }).on(changeVisualizationShow,(state,{show,section})=>{
+        const sections = state.sections.map((s) => {
+          if (s.id === section.id) {
+            const visualizations = section.visualizations.map((viz) => {
+              return { ...viz, show };
+            });
+            return { ...section, visualizations };
+          }
+          return s;
+        });
+        return { ...state, sections }; 
+      });
+
 
 export const dashboardApi = createApi($dashboard, {
     addImage: (state, image: IImage) => {
@@ -793,6 +820,8 @@ export const $section = domain
             overrides: {},
             group: "",
             bg: "",
+            show:0,
+            order:"desc"
         };
         return {
             ...state,

@@ -1,4 +1,5 @@
 import uniq from "lodash/uniq";
+import { orderBy, sortBy } from "lodash";
 import update from "lodash/update";
 import { allMetadata } from "../utils/utils";
 export const processSingleValue = (data: any[]): any => {
@@ -16,9 +17,11 @@ export const processSingleValue = (data: any[]): any => {
 
 export const processGraphs = (
     data: any[],
+    order: string,
+    show: number,
+    dataProperties = {},
     category?: string,
     series?: string,
-    dataProperties = {},
     metadata?: any,
     type: string = "bar"
 ) => {
@@ -33,7 +36,21 @@ export const processGraphs = (
             () => value
         );
     });
+
+   
     if (data && data.length > 0 && category) {
+        if (order) {
+            data = orderBy(data, 'value', [order as 'asc' | 'desc'])
+            
+           
+          }
+          if (show) {
+           
+            data = data.slice(0, show);
+            console.log(data);
+            // console.log(metadata)
+          }
+
         const x = uniq(data.map((num: any) => num[category]));
         const columns = x
             .map((c: any) => {
@@ -42,15 +59,15 @@ export const processGraphs = (
                     name: allMetadata[c] || metadata?.[c]?.name || c,
                 };
             })
-            .sort((a, b) => {
-                if (a.name < b.name) {
-                    return -1;
-                }
-                if (a.name > b.name) {
-                    return 1;
-                }
-                return 0;
-            });
+            // .sort((a, b) => {
+            //     if (a.name < b.name) {
+            //         return -1;
+            //     }
+            //     if (a.name > b.name) {
+            //         return 1;
+            //     }
+            //     return 0;
+            // });
 
         const realColumns = columns.map(({ name }) => name);
         if (series) {

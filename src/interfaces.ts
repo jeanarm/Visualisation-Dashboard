@@ -107,6 +107,8 @@ export interface IVisualization extends INamed {
     showTitle?: boolean;
     bg: string;
     needFilter?: boolean;
+    show:number;
+    order:string;
 }
 export interface ISection {
     id: string;
