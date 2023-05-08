@@ -35,6 +35,7 @@ import SunburstChart from "./SunburstChart";
 import Tables from "./Tables";
 import TreeMaps from "./TreeMaps";
 import DashboardTitle from "./DashboardTitle";
+import StackedArea from "./StackedArea";
 
 type VisualizationProps = {
     visualization: IVisualization;
@@ -262,6 +263,16 @@ const getVisualization = (
         ),
         scatterplot: (
             <ScatterPlot
+                section={section}
+                data={data}
+                visualization={visualization}
+                {...otherProperties}
+                layoutProperties={layoutProperties}
+                dataProperties={dataProperties}
+            />
+        ),
+        stackedarea: (
+            <StackedArea
                 section={section}
                 data={data}
                 visualization={visualization}

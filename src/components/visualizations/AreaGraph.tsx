@@ -1,11 +1,9 @@
 import Plot from "react-plotly.js";
 import { ChartProps } from "../../interfaces";
-
 interface AreaGraphProps extends ChartProps {
   category?: string;
   series?: string;
 }
-
 const trace1 = {
   x: [1, 2, 3, 4],
   y: [0, 2, 3, 5],

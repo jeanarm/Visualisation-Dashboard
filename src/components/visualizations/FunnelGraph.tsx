@@ -13,7 +13,7 @@ const FunnelGraph = ({}: FunnelGraphProps) => {
     {
       type: "funnel",
       y: [
-        "Number tested TB Positive",
+        "Number tested TB Positive", 
         "EPTB Confirmed",
         "P-BC Confirmed",
         "P-CD Confirmed",
